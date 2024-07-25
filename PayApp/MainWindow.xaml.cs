@@ -170,7 +170,7 @@ namespace PayApp
         public void Pay(object sender, RoutedEventArgs e)
         {
             PaymentCalculator payCalc = new PaymentCalculator(Users);
-            payCalc.Pay(Price);
+            payCalc.Pay(Price, PayingUser);
             Price = 0;
             PayingUser = null;
         }

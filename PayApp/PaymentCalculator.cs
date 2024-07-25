@@ -37,9 +37,8 @@ namespace PayApp
             return payingUser;
         }
 
-        public void Pay(double price)
+        public void Pay(double price, User? payingUser)
         {
-            User? payingUser = CalculatePayingUser();
             if (payingUser == null)
             {
                 return;
