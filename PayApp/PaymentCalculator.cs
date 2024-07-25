@@ -9,28 +9,22 @@ namespace PayApp
 {
     internal class PaymentCalculator
     {
-        private List<User> _JoiningUsers = new List<User>();
-        private IEnumerable<User> Users { get; set; }
-        private List<User> JoiningUsers => _JoiningUsers;
+        private IEnumerable<User> JoiningUsers { get; set; }
         public PaymentCalculator(IEnumerable<User> users)
         {
-            Users = users;
+            JoiningUsers = users;
         }
 
         public User? CalculatePayingUser()
         {
             User? payingUser = null;
             double maxCredits = double.MaxValue;
-            foreach (var user in Users)
+            foreach (var user in JoiningUsers)
             {
-                if (user.Joins)
+                if (user.Credits < maxCredits)
                 {
-                    JoiningUsers.Add(user);
-                    if (user.Credits < maxCredits)
-                    {
-                        maxCredits = user.Credits;
-                        payingUser = user;
-                    }
+                    maxCredits = user.Credits;
+                    payingUser = user;
                 }
             }
 
@@ -39,18 +33,13 @@ namespace PayApp
 
         public void Pay(double price, User? payingUser)
         {
-            if (payingUser == null)
-            {
-                return;
-            }
-
-            double pricePart = price / JoiningUsers.Count;
+            double pricePart = price / JoiningUsers.Count();
 
             foreach (var user in JoiningUsers)
             {
                 if (user.Equals(payingUser))
                 {
-                    user.Credits += pricePart * (JoiningUsers.Count - 1);
+                    user.Credits += pricePart * (JoiningUsers.Count() - 1);
                 }
                 else
                 {

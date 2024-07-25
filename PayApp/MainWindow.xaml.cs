@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
-using System.Numerics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -78,10 +78,7 @@ namespace PayApp
         public string PriceString
         {
             get { return Price.ToString("F2", CultureInfo.CurrentCulture); }
-            set
-            {
-                Price = double.Parse(value, CultureInfo.CurrentCulture);
-            }
+            set { Price = double.Parse(value, CultureInfo.CurrentCulture); }
         }
 
         public string DeleteText
@@ -163,16 +160,24 @@ namespace PayApp
 
         public void CalculatePayment(object sender, RoutedEventArgs e)
         {
-            PaymentCalculator payCalc = new PaymentCalculator(Users);
+            PaymentCalculator payCalc = new PaymentCalculator(Users.Where(x => x.Joins));
             PayingUser = payCalc.CalculatePayingUser();
         }
 
         public void Pay(object sender, RoutedEventArgs e)
         {
-            PaymentCalculator payCalc = new PaymentCalculator(Users);
-            payCalc.Pay(Price, PayingUser);
-            Price = 0;
-            PayingUser = null;
+            if (PayingUser != null && PayingUser.Joins && Price > 0)
+            {
+                PaymentCalculator payCalc = new PaymentCalculator(Users.Where(x => x.Joins));
+                payCalc.Pay(Price, PayingUser);
+                Price = 0;
+                PayingUser = null;
+            }
+        }
+
+        public void ChoosePayingUser(object sender, RoutedEventArgs e)
+        {
+            PayingUser = SelectedUser;
         }
     }
 }
