@@ -17,6 +17,7 @@ namespace PayApp
 
         public User? CalculatePayingUser()
         {
+            /*
             User? payingUser = null;
             double maxCredits = double.MaxValue;
             foreach (var user in JoiningUsers)
@@ -27,8 +28,9 @@ namespace PayApp
                     payingUser = user;
                 }
             }
-
             return payingUser;
+            */
+            return JoiningUsers.MinBy(x => x.Credits);
         }
 
         public void Pay(double price, User? payingUser)
