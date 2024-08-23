@@ -20,8 +20,9 @@ namespace PayApp
             return JoiningUsers.MinBy(x => x.Credits);
         }
 
-        public void Pay(double price, User? payingUser)
+        public void Pay(double price, User payingUser)
         {
+            Logger.Log(price, payingUser, JoiningUsers);
             double pricePart = price / JoiningUsers.Count();
 
             foreach (var user in JoiningUsers)

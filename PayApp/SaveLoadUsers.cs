@@ -43,5 +43,9 @@ namespace PayApp
             }
         }
 
+        public static string GetFileName()
+        { 
+            return _fileName;
+        }
     }
 }
