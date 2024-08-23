@@ -17,19 +17,6 @@ namespace PayApp
 
         public User? CalculatePayingUser()
         {
-            /*
-            User? payingUser = null;
-            double maxCredits = double.MaxValue;
-            foreach (var user in JoiningUsers)
-            {
-                if (user.Credits < maxCredits)
-                {
-                    maxCredits = user.Credits;
-                    payingUser = user;
-                }
-            }
-            return payingUser;
-            */
             return JoiningUsers.MinBy(x => x.Credits);
         }
 
