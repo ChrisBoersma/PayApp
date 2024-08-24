@@ -31,6 +31,7 @@ namespace PayApp
         public string CreditsString => Credits.ToString("F2", CultureInfo.CurrentCulture);
         public string Name { get; set; }
         public bool Joins { get; set; }
+        public double ChangeInCredit { get; set; }
 
         public User (string name, string credits)
         {

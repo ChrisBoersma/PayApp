@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -26,10 +27,16 @@ namespace PayApp
             sb.Append(payingUser.Name);
             sb.Append('\t');
             sb.Append(price.ToString("C2"));
-            sb.Append('\t');
+            sb.Append("\t\t");
             foreach (User user in joiningUsers)
             {
                 sb.Append(user.Name);
+                sb.Append('\t');
+                if (user.ChangeInCredit > 0)
+                {
+                    sb.Append("+");
+                }
+                sb.Append(user.ChangeInCredit.ToString("F2", CultureInfo.CurrentCulture));
                 sb.Append('\t');
             }
             sb.Append('\n');
