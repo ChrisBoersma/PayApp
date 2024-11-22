@@ -98,6 +98,8 @@ namespace PayApp
             set { _confirmEdit = value; }
         }
 
+        public ObservableCollection<string> LogLines => Logger.GetLogLines();
+
         public MainWindow()
         {
             DataContext = this;
@@ -172,6 +174,7 @@ namespace PayApp
                 payCalc.Pay(Price, PayingUser);
                 Price = 0;
                 PayingUser = null;
+                OnPropertyChanged(nameof(LogLines));
             }
         }
 

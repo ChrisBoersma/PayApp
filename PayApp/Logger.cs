@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -14,9 +15,14 @@ namespace PayApp
         public static void Log(double price, User payingUser, IEnumerable<User> joiningUsers)
         {
             string text = GetText(price, payingUser, joiningUsers);
-            string fileName = SaveLoadUsers.GetFileName();
-            string logFileName = fileName.Split('.')[0] + "_Log." + fileName.Split(".")[1];
+            string logFileName = GetLogFileName();
             File.AppendAllText(logFileName, text);
+        }
+
+        private static string GetLogFileName()
+        {
+            string fileName = SaveLoadUsers.GetFileName();
+            return fileName.Split('.')[0] + "_Log." + fileName.Split(".")[1];
         }
 
         private static string GetText(double price, User payingUser, IEnumerable<User> joiningUsers)
@@ -41,6 +47,12 @@ namespace PayApp
             }
             sb.Append('\n');
             return sb.ToString();
+        }
+
+        public static ObservableCollection<string> GetLogLines()
+        {
+            string logFileName = GetLogFileName();
+            return new ObservableCollection<string>(File.ReadAllLines(logFileName));
         }
     }
 }
